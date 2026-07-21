@@ -1,0 +1,98 @@
+{
+  "brand": {
+    "name": "Stiff Competition",
+    "description": "Stiff Competition is a collectibles brand blending NFT digital art with character-themed merchandise, built around six 1994-era action figure archetypes navigating modern life.",
+    "characters": ["Major Wood", "Rear Admiral", "Hammerin' Hanky", "The Grip", "Slick Willy", "Velvet Python"],
+    "contact_email": "rigid@stiffcompetitionart.com"
+  },
+  "faqs": [
+    {
+      "question": "How is NFT digital art delivered after I buy it?",
+      "answer": "All digital assets and NFTs are delivered instantly. Once your order is confirmed, minting happens automatically on Polygon via our Thirdweb integration, running on our own backend infrastructure. You'll get a confirmation email with access details or wallet instructions right after checkout \u2014 no shipping fees or delays for digital items."
+    },
+    {
+      "question": "Can I return or refund an NFT?",
+      "answer": "No. Once the minting or delivery process has started, digital assets (including NFTs and digital art) can't be returned or refunded. By completing your order you're consenting to immediate digital delivery, which under UK/EU consumer law waives the usual 14-day cooling-off right for that item. This applies even for customers in the UK or EU, where physical goods would normally get a 14-day window."
+    },
+    {
+      "question": "How long does physical merchandise take to arrive?",
+      "answer": "Physical items (mugs, t-shirts, hoodies, totes, prints) are custom-made to order through regional print-on-demand fulfillment. Allow 2\u20135 business days for production, then 3\u20137 business days transit once it ships \u2014 you'll get a tracking link by email the moment it's dispatched."
+    },
+    {
+      "question": "Do I have to pay customs or import fees?",
+      "answer": "Usually not. Orders route automatically to the closest regional fulfillment center to you (UK, USA, Canada, Europe, Australia, or New Zealand), so most orders within those markets don't incur international customs fees or import duties."
+    },
+    {
+      "question": "Can I return physical merchandise?",
+      "answer": "Yes \u2014 you have 30 days after receiving your item to request a return. It needs to be unworn/unused, in original packaging, with proof of purchase. Email rigid@stiffcompetitionart.com to start a return; items sent back without an approved request won't be accepted. Custom, personalized, or sale items aren't eligible for return."
+    },
+    {
+      "question": "My order arrived damaged or wrong \u2014 what do I do?",
+      "answer": "Inspect your order as soon as it arrives and email rigid@stiffcompetitionart.com right away if anything's defective, damaged, or incorrect, so it can be sorted out."
+    },
+    {
+      "question": "How long do refunds take once approved?",
+      "answer": "Once a return is approved, you're automatically refunded to your original payment method within 10 business days. Bank/card processing can add a bit more time on top of that. If it's been more than 15 business days since approval, email rigid@stiffcompetitionart.com."
+    },
+    {
+      "question": "What sizes do the t-shirts and hoodies come in?",
+      "answer": "Apparel is fulfilled via Gelato's standard print-on-demand sizing \u2014 check the size chart on each product page for exact measurements before ordering, since fit can vary slightly by garment style."
+    },
+    {
+      "question": "Who are the Stiff Competition characters?",
+      "answer": "Six 1994-era action figure archetypes: Major Wood, Rear Admiral, Hammerin' Hanky, The Grip, Slick Willy, and Velvet Python \u2014 an ongoing story property, not a one-off origin drop."
+    },
+    {
+      "question": "What is an NFT?",
+      "answer": "An NFT (non-fungible token) is a unique digital asset recorded on a blockchain \u2014 in our case, Polygon. Owning one means you hold a verifiable, one-of-a-kind digital collectible tied to your wallet, distinct from a regular image file anyone could copy."
+    },
+    {
+      "question": "What can I do with my NFT once I own it?",
+      "answer": "It's yours to keep, display, or trade. Once it's minted to your wallet, you can hold it as a collectible, or list it for sale/trade on a secondary marketplace like OpenSea. What you do with it after purchase is entirely up to you."
+    },
+    {
+      "question": "What is OpenSea?",
+      "answer": "OpenSea is the largest third-party marketplace for buying, selling, and trading NFTs, including ones minted elsewhere (like Stiff Competition's). It's not run by us \u2014 once your NFT is in your wallet, you're free to list it there if you want to sell or trade it."
+    },
+    {
+      "question": "How do I actually claim or access my NFT after buying it?",
+      "answer": "After checkout, you'll get a confirmation email with wallet instructions. Minting happens automatically on Polygon via our Thirdweb integration \u2014 you'll need a compatible wallet (like MetaMask) connected to receive it. Full step-by-step details are in our NFT Purchase Guide."
+    },
+    {
+      "question": "What major products does Stiff Competition sell?",
+      "answer": "NFT digital collectibles (headshot editions, Sports Series, Travel Series, and the higher-tier Prestige Series) plus physical merch \u2014 mugs, t-shirts, hoodies, tote bags, and museum-quality art prints, all featuring the six Stiff Competition characters."
+    },
+    {
+      "question": "What are NFT traits?",
+      "answer": "Each NFT carries a set of traits describing what makes that specific edition unique \u2014 which character it features, the background/expression variant, the series it belongs to (headshot, Sports, Travel, Prestige), and its edition tier. Traits are what collectors use to gauge an individual NFT's rarity within the collection."
+    },
+    {
+      "question": "What do the SC traits mean?",
+      "answer": "Alongside the visual traits, each SC NFT carries a set of parody \"stat\" traits in the same spirit as 90s trading cards \u2014 things like Friction Force, Innuendo Intensity, Tactical Girth, and Structural Rigidity, each scored numerically. They're part of the collectible's playful character rather than a technical spec."
+    },
+    {
+      "question": "What payment methods do you accept?",
+      "answer": "Standard checkout payment methods available at checkout \u2014 major credit/debit cards, and options like Shop Pay, Apple Pay, Google Pay, and PayPal where shown. NFT purchases are paid the same way as merch; you don't need your own crypto to buy one."
+    },
+    {
+      "question": "How do I track my order?",
+      "answer": "For physical merchandise, you'll get a tracking link by email as soon as your item is dispatched from the fulfillment center. For NFTs, your confirmation email with wallet/access details arrives immediately after checkout since delivery is instant."
+    },
+    {
+      "question": "Do you offer discount codes or promotions?",
+      "answer": "Join the mailing list on the site for updates on drops and any promotions \u2014 that's the best way to hear about anything currently running."
+    },
+    {
+      "question": "Can I buy an NFT and physical merch in the same order?",
+      "answer": "Yes \u2014 NFTs and physical merchandise can be purchased together in one checkout. Your NFT mints instantly as usual, while the physical items follow the standard print-on-demand production and shipping timeline."
+    },
+    {
+      "question": "How do I contact Stiff Competition?",
+      "answer": "Email rigid@stiffcompetitionart.com for anything \u2014 orders, returns, NFT questions, or general enquiries."
+    },
+    {
+      "question": "What law governs my purchase?",
+      "answer": "All purchases and site use are governed by the laws of England and Wales, with courts of England and Wales having exclusive jurisdiction over any disputes."
+    }
+  ]
+}

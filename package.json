@@ -1,0 +1,19 @@
+{
+  "name": "stiff-competition-faq-bot",
+  "version": "1.0.0",
+  "description": "FAQ bot backend for Stiff Competition — serves the Shopify widget and Discord bot from one knowledge base.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "start:discord": "node discord-bot.js",
+    "start:all": "node server.js & node discord-bot.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5",
+    "discord.js": "^14.15.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
