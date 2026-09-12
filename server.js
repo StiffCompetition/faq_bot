@@ -10,9 +10,10 @@ let knowledgeBase = [];
 
 async function loadKnowledgeBase() {
   try {
-    // Fetch KB from n8n Data Table API
+    // Fetch KB via the public no-auth webhook (the /api/v1/data-tables REST
+    // endpoint requires an n8n API key that isn't configured here and 401s)
     const response = await fetch(
-      `${N8N_BASE_URL}/api/v1/data-tables/${KB_TABLE}/rows?limit=100&active=checked`,
+      `${N8N_BASE_URL}/webhook/sc-kb-public`,
       {
         method: 'GET',
         headers: {
@@ -20,13 +21,13 @@ async function loadKnowledgeBase() {
         }
       }
     );
-    
+
     if (!response.ok) {
       throw new Error(`n8n API returned ${response.status}: ${response.statusText}`);
     }
-    
+
     const data = await response.json();
-    knowledgeBase = data.rows || [];
+    knowledgeBase = Array.isArray(data) ? data : (data.rows || []);
     console.log(`Loaded ${knowledgeBase.length} KB rows from n8n`);
     return true;
   } catch (error) {
@@ -47,26 +48,26 @@ setInterval(loadKnowledgeBase, 5 * 60 * 1000);
 
 app.post('/api/chat', (req, res) => {
   const { message } = req.body;
-  
+
   if (!message || typeof message !== 'string') {
     return res.json({ response: 'Invalid message format' });
   }
-  
+
   if (knowledgeBase.length === 0) {
     return res.json({ response: 'Knowledge base not yet loaded. Please try again.' });
   }
-  
+
   const query = message.toLowerCase();
-  
+
   // Search KB for matching topic
   for (const entry of knowledgeBase) {
     if (entry.topic && entry.topic.toLowerCase().includes(query)) {
       return res.json({ response: entry.content || 'No content available' });
     }
   }
-  
+
   // Default response
-  res.json({ 
+  res.json({
     response: 'Card payments processed securely by PayPal — all major cards accepted, no PayPal account needed.'
   });
 });
