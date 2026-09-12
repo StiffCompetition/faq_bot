@@ -1,9 +1,9 @@
 // Stiff Competition FAQ Bot — Discord connector
-// Reuses the same knowledge base and Claude call as server.js.
+// Reuses the same Shared Brain / Claude call as server.js.
 // Run alongside server.js on Railway (see README for the two-process setup).
 
 const { Client, GatewayIntentBits, Partials } = require('discord.js');
-const { askClaude } = require('./server');
+const { askSharedBrain } = require('./server');
 
 const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
 // Optional: restrict the bot to a specific channel by ID (e.g. #faq or #support).
@@ -41,7 +41,7 @@ client.on('messageCreate', async (message) => {
 
   try {
     await message.channel.sendTyping();
-    const reply = await askClaude(question);
+    const reply = await askSharedBrain(question, [], 'discord', 'discord:' + message.author.id);
     await message.reply(reply);
   } catch (err) {
     console.error(err);
