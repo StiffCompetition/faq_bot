@@ -1,5 +1,7 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 const N8N_BASE_URL = 'https://n8n-production-afc2.up.railway.app';
@@ -36,9 +38,7 @@ async function loadKnowledgeBase() {
   }
 }
 
-// Load KB on startup and periodically refresh (kept for /health reporting only -
-// Shared Brain fetches its own KB internally now, this bot no longer needs it
-// for answering)
+// Load KB on startup and periodically refresh
 loadKnowledgeBase().then(success => {
   if (!success) {
     console.error('CRITICAL: Failed to load KB on startup - bot will serve empty responses');
@@ -63,7 +63,7 @@ async function askSharedBrain(message, history, channel, contactId) {
   return data.reply || data.response || 'Standing by, Soldier.';
 }
 
-// Kept for backwards compatibility
+// Kept for backwards compatibility with discord-bot.js's original single-argument call
 async function askClaude(message) {
   return askSharedBrain(message, [], 'discord', null);
 }
