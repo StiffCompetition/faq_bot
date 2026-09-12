@@ -36,7 +36,9 @@ async function loadKnowledgeBase() {
   }
 }
 
-// Load KB on startup and periodically refresh
+// Load KB on startup and periodically refresh (kept for /health reporting only -
+// Shared Brain fetches its own KB internally now, this bot no longer needs it
+// for answering)
 loadKnowledgeBase().then(success => {
   if (!success) {
     console.error('CRITICAL: Failed to load KB on startup - bot will serve empty responses');
@@ -46,34 +48,46 @@ loadKnowledgeBase().then(success => {
 // Refresh KB every 5 minutes
 setInterval(loadKnowledgeBase, 5 * 60 * 1000);
 
-app.post('/api/chat', (req, res) => {
-  const { message } = req.body;
+const BRIDGE_URL = `${N8N_BASE_URL}/webhook/sc-web-bridge`;
+
+async function askSharedBrain(message, history, channel, contactId) {
+  const response = await fetch(BRIDGE_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message, history: history || [], channel, contact_id: contactId })
+  });
+  if (!response.ok) {
+    throw new Error(`Shared Brain bridge returned ${response.status}: ${response.statusText}`);
+  }
+  const data = await response.json();
+  return data.reply || data.response || 'Standing by, Soldier.';
+}
+
+// Kept for backwards compatibility
+async function askClaude(message) {
+  return askSharedBrain(message, [], 'discord', null);
+}
+
+app.post('/api/chat', async (req, res) => {
+  const { message, history } = req.body;
 
   if (!message || typeof message !== 'string') {
     return res.json({ reply: 'Invalid message format', response: 'Invalid message format' });
   }
 
-  if (knowledgeBase.length === 0) {
-    return res.json({ reply: 'Knowledge base not yet loaded. Please try again.', response: 'Knowledge base not yet loaded. Please try again.' });
+  try {
+    const reply = await askSharedBrain(message, history, 'web', req.body.contact_id);
+    res.json({ reply, response: reply });
+  } catch (error) {
+    console.error('Shared Brain call failed:', error.message);
+    res.status(500).json({
+      reply: "Sorry, I couldn't reach support right now. Try rigid@stiffcompetitionart.com.",
+      response: "Sorry, I couldn't reach support right now. Try rigid@stiffcompetitionart.com."
+    });
   }
-
-  const query = message.toLowerCase();
-
-  // Search KB for matching topic
-  for (const entry of knowledgeBase) {
-    if (entry.topic && entry.topic.toLowerCase().includes(query)) {
-      const text = entry.content || 'No content available';
-      return res.json({ reply: text, response: text });
-    }
-  }
-
-  // Default response
-  const fallback = 'Card payments processed securely by PayPal — all major cards accepted, no PayPal account needed.';
-  res.json({
-    reply: fallback,
-    response: fallback
-  });
 });
+
+module.exports = { askClaude, askSharedBrain };
 
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', kbLoaded: knowledgeBase.length > 0 });
