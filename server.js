@@ -50,11 +50,11 @@ app.post('/api/chat', (req, res) => {
   const { message } = req.body;
 
   if (!message || typeof message !== 'string') {
-    return res.json({ response: 'Invalid message format' });
+    return res.json({ reply: 'Invalid message format', response: 'Invalid message format' });
   }
 
   if (knowledgeBase.length === 0) {
-    return res.json({ response: 'Knowledge base not yet loaded. Please try again.' });
+    return res.json({ reply: 'Knowledge base not yet loaded. Please try again.', response: 'Knowledge base not yet loaded. Please try again.' });
   }
 
   const query = message.toLowerCase();
@@ -62,13 +62,16 @@ app.post('/api/chat', (req, res) => {
   // Search KB for matching topic
   for (const entry of knowledgeBase) {
     if (entry.topic && entry.topic.toLowerCase().includes(query)) {
-      return res.json({ response: entry.content || 'No content available' });
+      const text = entry.content || 'No content available';
+      return res.json({ reply: text, response: text });
     }
   }
 
   // Default response
+  const fallback = 'Card payments processed securely by PayPal — all major cards accepted, no PayPal account needed.';
   res.json({
-    response: 'Card payments processed securely by PayPal — all major cards accepted, no PayPal account needed.'
+    reply: fallback,
+    response: fallback
   });
 });
 
