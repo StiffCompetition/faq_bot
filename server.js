@@ -4,8 +4,6 @@
 
 const express = require('express');
 const cors = require('cors');
-const fs = require('fs');
-const path = require('path');
 
 const app = express();
 app.use(cors());
@@ -19,27 +17,47 @@ if (!ANTHROPIC_API_KEY) {
   process.exit(1);
 }
 
-const kb = JSON.parse(fs.readFileSync(path.join(__dirname, 'knowledge-base.json'), 'utf8'));
+// Load KB from GitHub instead of local file
+let kb = null;
+
+async function loadKB() {
+  try {
+    const response = await fetch('https://raw.githubusercontent.com/StiffCompetition/sc-kb/main/kb-master.json');
+    if (!response.ok) throw new Error(`GitHub returned ${response.status}`);
+    kb = await response.json();
+    console.log(`Loaded ${kb.length} KB entries from GitHub`);
+  } catch (err) {
+    console.error('Failed to load KB from GitHub:', err.message);
+    // Fallback: empty KB so the bot gracefully degrades
+    kb = [];
+  }
+}
 
 function buildSystemPrompt() {
-  const faqBlock = kb.faqs
-    .map((f, i) => `${i + 1}. Q: ${f.question}\n   A: ${f.answer}`)
+  if (!kb || kb.length === 0) {
+    return `You are the customer support assistant for Stiff Competition, an ecommerce store.
+Answer customer questions using only the facts provided. If you don't have information, 
+point the customer to support@stiffcompetition.com. Keep answers short (2-4 sentences).`;
+  }
+
+  const faqBlock = kb
+    .filter(row => row.active === 'checked' && row.visibility === 'external')
+    .map((f, i) => `${i + 1}. Q: ${f.topic}\n   A: ${f.content}`)
     .join('\n\n');
 
-  return `You are the customer support assistant for ${kb.brand.name}, an ecommerce store (${kb.brand.description}).
+  return `You are the customer support assistant for Stiff Competition, an ecommerce store.
 
-Answer customer questions using ONLY the facts below. If a question isn't covered by these facts, say you don't have that information and point the customer to ${kb.brand.contact_email} rather than guessing or inventing an answer.
+Answer customer questions using ONLY the facts below. If a question isn't covered by these facts, say you don't have that information and point the customer to rigid@stiffcompetitionart.com rather than guessing or inventing an answer.
 
 Keep answers short (2-4 sentences), direct, and friendly. Do not make up policy details, prices, shipping times, or dates that aren't in the facts below.
 
 KNOWN FACTS:
 ${faqBlock}
 
-Brand characters: ${kb.brand.characters.join(', ')}.
-Contact email for anything not covered here: ${kb.brand.contact_email}.`;
+Contact email for anything not covered here: rigid@stiffcompetitionart.com`;
 }
 
-const SYSTEM_PROMPT = buildSystemPrompt();
+const SYSTEM_PROMPT = buildSystemPrompt;
 
 async function askClaude(userMessage, history = []) {
   const messages = [
@@ -57,7 +75,7 @@ async function askClaude(userMessage, history = []) {
     body: JSON.stringify({
       model: 'claude-sonnet-4-6',
       max_tokens: 400,
-      system: SYSTEM_PROMPT,
+      system: SYSTEM_PROMPT(),
       messages,
     }),
   });
@@ -90,8 +108,9 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`Stiff Competition FAQ bot listening on port ${PORT}`);
+  await loadKB();
 });
 
 module.exports = { askClaude, SYSTEM_PROMPT };
